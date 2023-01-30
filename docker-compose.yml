@@ -1,0 +1,17 @@
+version: "2"
+services:
+  enter_data:
+    build: ./enter_data
+    links:
+      - mysql_db
+    ports:
+      - "5000:5000"
+
+  mysql_db:
+    image: mysql:5.7
+    ports:
+      - "32000:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./mysql_db:/docker-entrypoint-initdb.d/:ro
