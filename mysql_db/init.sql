@@ -1,13 +1,12 @@
-CREATE DATABASE knights;
-use knights;
+CREATE DATABASE project1;
+use project1;
 
-CREATE TABLE favorite_colors (
-  name VARCHAR(20),
-  color VARCHAR(10)
+CREATE TABLE times (
+  exercise FLOAT(5,2),
+  homework FLOAT(5,2),
+  sleep FLOAT(5,2),
+  phone FLOAT(5,2),
+  family FLOAT(5,2),
+  school FLOAT(5,2)
 );
 
-INSERT INTO favorite_colors
-  (name, color)
-VALUES
-  ('Lancelot', 'blue'),
-  ('Galahad', 'yellow');
