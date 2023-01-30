@@ -5,11 +5,6 @@ import json
 
 app = Flask(__name__)
 
-# SUBMITTED PAGE
-@app.route('/submitted')
-def submitted():
-    return render_template("submitted.html")
-
 # HOMEPAGE
 @app.route('/', methods=["POST", "GET"])
 def homepage():
@@ -46,7 +41,7 @@ def homepage():
         cursor.close()
         connection.close()
 
-        return redirect("/submitted")
+        return redirect("/")
     
     else:
         # if its not a post request

@@ -6,6 +6,8 @@ WORKDIR /enter_data
 
 COPY templates /enter_data/templates
 
+COPY static /enter_data/static
+
 COPY requirements.txt /enter_data
 RUN pip install -r requirements.txt
 
