@@ -1,5 +1,5 @@
 from typing import List, Dict
-from flask import Flask
+from flask import Flask, render_template
 import mysql.connector
 import json
 
@@ -28,6 +28,10 @@ def favorite_colors() -> List[Dict]:
 def index() -> str:
     return json.dumps({'favorite_colors': favorite_colors()})
 
+@app.route('/hello')
+def homepage():
+    return render_template("index.html")
+
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(debug=True,host='0.0.0.0')

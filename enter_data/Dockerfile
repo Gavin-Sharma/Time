@@ -4,6 +4,8 @@ EXPOSE 5000
 
 WORKDIR /enter_data
 
+COPY templates /enter_data/templates
+
 COPY requirements.txt /enter_data
 RUN pip install -r requirements.txt
 
