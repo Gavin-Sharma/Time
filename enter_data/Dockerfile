@@ -1,6 +1,6 @@
 FROM python:3.6
 
-EXPOSE 5000
+EXPOSE 8001
 
 WORKDIR /enter_data
 
