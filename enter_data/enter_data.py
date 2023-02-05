@@ -2,8 +2,11 @@ from typing import List, Dict
 from flask import Flask, render_template, request, redirect
 import mysql.connector
 import json
+import pymongo
 
 app = Flask(__name__)
+
+
 
 # HOMEPAGE
 @app.route('/', methods=["POST", "GET"])
@@ -40,6 +43,33 @@ def homepage():
         connection.commit()
         cursor.close()
         connection.close()
+
+        # connect to the MongoDB db and collection
+        myclient = pymongo.MongoClient("mongodb://mongo:27017/")
+        mydb = myclient["project1"]
+        mycol = mydb["times"]
+        
+        # connect to MySQL
+        connection = mysql.connector.connect(**config)
+        cursor = connection.cursor()
+
+        # query the data from the MySQL db
+        cursor.execute("SELECT * FROM times")
+        rows = cursor.fetchall()
+
+        # iterate over the rows and insert into MongoDB
+        for row in rows:
+            mycol.insert_one({
+                "exercise": row[0],
+                "homework": row[1],
+                "sleep": row[2],
+                "phone": row[3],
+                "family": row[4],
+                "school": row[5]
+            })
+
+        cnx.close()
+        client.close()
 
         return redirect("/")
     

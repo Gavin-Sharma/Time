@@ -14,4 +14,18 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
     volumes:
-      - ./mysql_db:/docker-entrypoint-initdb.d/:ro
+      - ./mysql_db:/docker-entrypoint-initdb.d/:r
+
+  mongodb:
+     image: mongo
+     environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONOGO_INITDB_ROOT_PASSWORD=root
+
+  analytics-service:
+    build: ./enter_data
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongodb
+      - mysql_db
