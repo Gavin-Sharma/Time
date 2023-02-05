@@ -1,4 +1,4 @@
-FROM node:14
+FROM node:16.13.2
 
 WORKDIR /nodelogin
 
@@ -6,9 +6,9 @@ COPY package*.json ./
 RUN npm install
 
 COPY static ./static
+COPY login.js ./
+COPY login.html ./
 
-COPY login.* ./
+EXPOSE 3000
 
-COPY node_modules ./node_modules
-
-CMD [ "npm", "start" ]
+CMD ["node", "login.js"]

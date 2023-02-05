@@ -4,7 +4,7 @@ const session = require('express-session');
 const path = require('path');
 
 const connection = mysql.createConnection({
-	host     : 'localhost',
+	host     : 'host.docker.internal',
 	user     : 'root',
 	password : 'Password',
 	database : 'nodelogin'
@@ -44,7 +44,7 @@ app.post('/auth', function(request, response) {
 				request.session.loggedin = true;
 				request.session.username = username;
 				// Redirect to home page
-				response.redirect('/home');
+				response.redirect('http://localhost:8001');
 			} else {
 				response.send('Incorrect Username and/or Password!');
 			}			
@@ -57,16 +57,16 @@ app.post('/auth', function(request, response) {
 });
 
 // http://localhost:3000/home
-app.get('/home', function(request, response) {
-	// If the user is loggedin
-	if (request.session.loggedin) {
-		// Output username
-		response.send('Welcome back, ' + request.session.username + '!');
-	} else {
-		// Not logged in
-		response.send('Please login to view this page!');
-	}
-	response.end();
-});
+// app.get('/home', function(request, response) {
+// 	// If the user is loggedin
+// 	if (request.session.loggedin) {
+// 		// Output username
+// 		response.send('Welcome back, ' + request.session.username + '!');
+// 	} else {
+// 		// Not logged in
+// 		response.send('Please login to view this page!');
+// 	}
+// 	response.end();
+// });
 
-app.listen(8002);
+app.listen(3000);
