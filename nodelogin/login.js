@@ -1,76 +1,61 @@
-const mysql = require('mysql2');
-const express = require('express');
-const session = require('express-session');
-const path = require('path');
+const app = require('express')(); 
+const basicAuth = require('express-basic-auth');
+const bodyParser = require('body-parser'); // middleware
+app.use(bodyParser.urlencoded({ extended: false }));
 
-const connection = mysql.createConnection({
-	host     : 'host.docker.internal',
-	user     : 'root',
-	password : 'Password',
-	database : 'nodelogin'
+const credentials = [ {'test': 'test'}];
+
+
+app.get('/', function(request, response){ 
+    response.sendFile(__dirname + '/login.html') //reposond by send a static file of index.htmls
 });
-
-const app = express();
-
-app.use(session({
-	secret: 'secret',
-	resave: true,
-	saveUninitialized: true
-}));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'static')));
-
-// http://localhost:3000/
-app.get('/', function(request, response) {
-	// Render login template
-	response.sendFile(path.join(__dirname + '/login.html'));
-});
-
-// http://localhost:3000/auth
-app.post('/auth', function(request, response) {
-	// Capture the input fields
-	let username = request.body.username;
-	let password = request.body.password;
-	// Ensure the input fields exists and are not empty
-	if (username && password) {
-		// Execute SQL query that'll select the account from the database based on the specified username and password
-		connection.query('SELECT * FROM accounts WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
-			// If there is an issue with the query, output the error
-			if (error) throw error;
-			// If the account exists
-			if (results.length > 0) {
-				// Authenticate the user
-				request.session.loggedin = true;
-				request.session.username = username;
-				// Redirect to home page
-				response.redirect('/home');
-			} else {
-				response.send('Incorrect Username and/or Password!');
-			}			
-			response.end();
-		});
-	} else {
-		response.send('Please enter Username and Password!');
-		response.end();
-	}
-});
-
-// http://localhost:3000/home
-// app.get('/home', function(request, response) {
-// 	// // If the user is loggedin
-// 	// if (request.session.loggedin) {
-// 	// 	// Output home page
-// 	// 	response.sendFile(path.join(__dirname + '/homepage.html'));
-// 	// } else {
-// 	// 	// Not logged in
-// 	// 	response.send('Please login to view this page!');
-// 	// }
-// 	// response.end();
-// });
 
 app.get('/home', function(request, response){ 
     response.sendFile(__dirname + '/homepage.html') //reposond by send a static file of index.htmls
 });
+
+app.post('/home', (req, res) => {
+    let username = req.body.username;
+    let password = req.body.password;
+    //console.log(credentials)
+
+
+
+
+app.use(basicAuth( { authorizer: myAuthorizer } ))
+
+function myAuthorizer(username, password) {
+    for (i of credentials){
+        for (let key in i) {
+            const userMatches = basicAuth.safeCompare(username, key); //this is the key in the dict
+            const passwordMatches = basicAuth.safeCompare(password, i[key]); // this is the value of the dict
+            if (userMatches & passwordMatches){ //check if condition and if true return and if not just continue looping
+                return (userMatches & passwordMatches);
+            }
+        }
+    }
+}
+
+
+    if (myAuthorizer(username, password)) {
+        res.sendFile(__dirname + "/homepage.html")
+    } else { res.send('You are not a user') }
+
+
+});
+
+// app.post('/home', (req, res) =>{
+//     let newUsername = req.body.username;
+//     let newPassword = req.body.password;
+
+//     var key = newUsername;
+//     var obj = {};
+//     obj[key] = newPassword;
+//     credentials.push(obj);
+
+//     res.sendFile(__dirname + '/homepage.html') //reposond by send a static file of index.htmls
+// })
+
+
 
 app.listen(3000);
