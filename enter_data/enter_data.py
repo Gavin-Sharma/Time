@@ -44,39 +44,20 @@ def homepage():
         cursor.close()
         connection.close()
 
-        # connect to the MongoDB db and collection
-        myclient = pymongo.MongoClient("mongodb://mongo:27017/")
-        mydb = myclient["project1"]
-        mycol = mydb["times"]
-        
-        # connect to MySQL
-        connection = mysql.connector.connect(**config)
-        cursor = connection.cursor()
-
-        # query the data from the MySQL db
-        cursor.execute("SELECT * FROM times")
-        rows = cursor.fetchall()
-
-        # iterate over the rows and insert into MongoDB
-        for row in rows:
-            mycol.insert_one({
-                "exercise": row[0],
-                "homework": row[1],
-                "sleep": row[2],
-                "phone": row[3],
-                "family": row[4],
-                "school": row[5]
-            })
-
-        cnx.close()
-        client.close()
-
         return redirect("/")
     
     else:
         # if its not a post request
         return render_template("index.html")
 
+def store_data_in_mongodb(data):
+    # Connect to MongoDB
+    client = pymongo.MongoClient("mongodb://root:root@mongodb:27017/")
+    db = client["project1"]
+    collection = db["times"]
+    
+    # Insert data into the collection
+    collection.insert_one(data)
 
 if __name__ == '__main__':
     app.run(debug=True,host='0.0.0.0')
