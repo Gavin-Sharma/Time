@@ -6,6 +6,10 @@ services:
       - mysql_db
     ports:
       - "8001:5000"
+    environment:
+      AUTH_SERVICE_HOST: nodelogin
+    depends_on:
+      - nodelogin
 
   mysql_db:
     image: mysql:5.7
@@ -15,3 +19,9 @@ services:
       MYSQL_ROOT_PASSWORD: root
     volumes:
       - ./mysql_db:/docker-entrypoint-initdb.d/:ro
+
+  nodelogin:
+    build: ./nodelogin
+    ports:
+      - "3000:3000"
+
