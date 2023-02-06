@@ -19,8 +19,8 @@ services:
   mongo_db:
      image: mongo:4.2
      environment:
-      - MONGO_INITDB_ROOT_USERNAME= "root"
-      - MONOGO_INITDB_ROOT_PASSWORD= "root"
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
      command: mongod --auth
      ports:
       - 27017:27017
@@ -34,3 +34,11 @@ services:
     depends_on:
       - mongo_db
       - mysql_db
+    environment:
+      MYSQL_HOST: root
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: project1
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MONGO_HOST: mongo
+      MONGO_PORT: 27017

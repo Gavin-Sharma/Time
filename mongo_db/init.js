@@ -6,7 +6,8 @@ db.createUser(
         user: root,
         pwd: root,
         roles: [
-            "readWrite", "dbAdmin"
+            role: "readWrite", "dbAdmin"
+            db: "project1"
         ]
     }
 );
