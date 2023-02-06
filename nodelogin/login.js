@@ -44,7 +44,7 @@ app.post('/auth', function(request, response) {
 				request.session.loggedin = true;
 				request.session.username = username;
 				// Redirect to home page
-				response.redirect('http://localhost:8001');
+				response.redirect('/home');
 			} else {
 				response.send('Incorrect Username and/or Password!');
 			}			
@@ -58,15 +58,19 @@ app.post('/auth', function(request, response) {
 
 // http://localhost:3000/home
 // app.get('/home', function(request, response) {
-// 	// If the user is loggedin
-// 	if (request.session.loggedin) {
-// 		// Output username
-// 		response.send('Welcome back, ' + request.session.username + '!');
-// 	} else {
-// 		// Not logged in
-// 		response.send('Please login to view this page!');
-// 	}
-// 	response.end();
+// 	// // If the user is loggedin
+// 	// if (request.session.loggedin) {
+// 	// 	// Output home page
+// 	// 	response.sendFile(path.join(__dirname + '/homepage.html'));
+// 	// } else {
+// 	// 	// Not logged in
+// 	// 	response.send('Please login to view this page!');
+// 	// }
+// 	// response.end();
 // });
+
+app.get('/home', function(request, response){ 
+    response.sendFile(__dirname + '/homepage.html') //reposond by send a static file of index.htmls
+});
 
 app.listen(3000);
