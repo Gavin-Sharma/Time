@@ -4,7 +4,8 @@
     font-size: 16px;
 }
 body {
-    background-color: #cbd1d9;
+    background: linear-gradient(to bottom, #003366, #0099cc);
+    font-family: Arial, sans-serif;
 }
 .login {
     width: 400px;
