@@ -8,6 +8,7 @@ RUN npm install
 COPY login.js ./
 COPY login.html ./
 COPY homepage.html ./
+COPY static ./static
 
 EXPOSE 3000
 
