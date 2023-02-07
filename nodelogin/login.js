@@ -3,7 +3,7 @@ const basicAuth = require('express-basic-auth');
 const bodyParser = require('body-parser'); // middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 
-const credentials = [ {'test': 'test'}];
+const credentials = [ {'test': 'test'},{'admin': 'password'}];
 
 
 app.get('/', function(request, response){ 
@@ -17,12 +17,13 @@ app.get('/home', function(request, response){
 app.post('/home', (req, res) => {
     let username = req.body.username;
     let password = req.body.password;
-    //console.log(credentials)
 
 
 
 
-app.use(basicAuth( { authorizer: myAuthorizer } ))
+app.use(basicAuth({ 
+    authorizer: myAuthorizer
+}))
 
 function myAuthorizer(username, password) {
     for (i of credentials){
@@ -43,19 +44,5 @@ function myAuthorizer(username, password) {
 
 
 });
-
-// app.post('/home', (req, res) =>{
-//     let newUsername = req.body.username;
-//     let newPassword = req.body.password;
-
-//     var key = newUsername;
-//     var obj = {};
-//     obj[key] = newPassword;
-//     credentials.push(obj);
-
-//     res.sendFile(__dirname + '/homepage.html') //reposond by send a static file of index.htmls
-// })
-
-
 
 app.listen(3000);

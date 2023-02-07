@@ -25,3 +25,13 @@ services:
     ports:
       - "3000:3000"
 
+  view_data:
+    build: ./view_data
+    ports:
+      - "8004:8004"
+    environment:
+      AUTH_SERVICE_HOST: nodelogin
+    depends_on:
+      - nodelogin
+    
+
