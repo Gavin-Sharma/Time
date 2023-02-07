@@ -1,17 +1,16 @@
-conn = new Mongo();
-db = conn.getDB("project1");
+// conn = new Mongo();
+// db = conn.getDB("project1");
 
-db.createUser(
-    {
-        user: root,
-        pwd: root,
-        roles: [
-            role: "readWrite", "dbAdmin"
-            db: "project1"
-        ]
-    }
-);
-
+// db.createUser(
+//     {
+//         user: root,
+//         pwd: root,
+//         roles: [
+//             role: "readWrite", "dbAdmin"
+//             db: "project1"
+//         ]
+//     }
+// );
 use project1;
 db.createCollection("times", {
    exercise: {type: Number, decimal: [5, 2]},
