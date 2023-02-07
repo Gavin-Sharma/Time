@@ -1,28 +1,29 @@
-const app = require('express')(); 
+const express = require('express');
 const basicAuth = require('express-basic-auth');
 const bodyParser = require('body-parser'); // middleware
+const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 
-const credentials = [ {'test': 'test'}];
-
+const credentials = [ {'test': 'test'},{'admin': 'password'}];
 
 app.get('/', function(request, response){ 
-    response.sendFile(__dirname + '/login.html') //reposond by send a static file of index.htmls
+    response.sendFile(__dirname + '/static/login.html') //reposond by send a static file of index.htmls
 });
 
 app.get('/home', function(request, response){ 
-    response.sendFile(__dirname + '/homepage.html') //reposond by send a static file of index.htmls
+    response.sendFile(__dirname + '/static/homepage.html') //reposond by send a static file of index.htmls
 });
 
 app.post('/home', (req, res) => {
     let username = req.body.username;
     let password = req.body.password;
-    //console.log(credentials)
 
 
 
 
-app.use(basicAuth( { authorizer: myAuthorizer } ))
+app.use(basicAuth({ 
+    authorizer: myAuthorizer
+}))
 
 function myAuthorizer(username, password) {
     for (i of credentials){
@@ -38,24 +39,18 @@ function myAuthorizer(username, password) {
 
 
     if (myAuthorizer(username, password)) {
-        res.sendFile(__dirname + "/homepage.html")
+        res.sendFile(__dirname + "/static/homepage.html")
     } else { res.send('You are not a user') }
 
 
 });
 
-// app.post('/home', (req, res) =>{
-//     let newUsername = req.body.username;
-//     let newPassword = req.body.password;
-
-//     var key = newUsername;
-//     var obj = {};
-//     obj[key] = newPassword;
-//     credentials.push(obj);
-
-//     res.sendFile(__dirname + '/homepage.html') //reposond by send a static file of index.htmls
-// })
-
-
+app.use(express.static(__dirname + '/static', {
+    setHeaders: function (res, path) {
+      if (path.endsWith(".css")) {
+        res.set("Content-Type", "text/css");
+      }
+    }
+}));
 
 app.listen(3000);
