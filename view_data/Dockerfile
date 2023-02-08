@@ -5,9 +5,7 @@ WORKDIR /view_data
 COPY package*.json ./
 RUN npm install
 
-COPY index.html ./
-COPY style.css ./
-COPY view_data.js ./
+COPY . .
 
 EXPOSE 8004
 
