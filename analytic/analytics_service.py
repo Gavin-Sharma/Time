@@ -6,7 +6,7 @@ from pymongo import MongoClient as pm
 def get_stat_data():
     # connect to MySQL
     cnx = mysql.connector.connect(user='root', password='root',
-                                host='localhost', database='project1')
+                                host='mysql_db', database='project1')
 
     # retrieve data from MySQL
     df = pd.read_sql("SELECT * FROM projecg1.times", cnx)
