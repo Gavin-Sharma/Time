@@ -16,5 +16,5 @@
 - connect to mysql to check table `docker exec -it <container_id> mysql -p`
   - password: root
 
-## mongo DB
-- connect to mongo to check table 'docker exec -it <container_id> mongo
+## Mongo DB
+- connect to mongo to check table 'docker exec -it <container_id> mongosh
