@@ -10,6 +10,8 @@ services:
       AUTH_SERVICE_HOST: nodelogin
     depends_on:
       - nodelogin
+    networks:
+      - project1
 
   mysql_db:
     image: mysql:5.7
@@ -19,11 +21,15 @@ services:
       MYSQL_ROOT_PASSWORD: root
     volumes:
       - ./mysql_db:/docker-entrypoint-initdb.d/:ro
+    networks:
+      - project1
 
   nodelogin:
     build: ./nodelogin
     ports:
       - "3000:3000"
+    networks:
+      - project1
 
   view_data:
     build: ./view_data
@@ -33,5 +39,8 @@ services:
       AUTH_SERVICE_HOST: nodelogin
     depends_on:
       - nodelogin
+    networks:
+      - project1
     
-
+networks:
+  project1:
