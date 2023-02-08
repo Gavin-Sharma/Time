@@ -9,7 +9,7 @@
 ------------
 # Services Notes
 ## Enter Data
-- Go to local http://localhost:5000/
+- Go to local http://localhost:8001/
 - This service collects hour/min data and stores it as floats
 
 ## MySql DB
