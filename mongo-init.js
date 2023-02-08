@@ -5,7 +5,7 @@ db = db.getSiblingDB('new_db');
 db.createUser(
     {
         user: "root",
-        pwd: "roott",
+        pwd: "root",
         roles: [ { role: "readWrite", db: "project1"} ],
         passwordDigestor: "server",
     }

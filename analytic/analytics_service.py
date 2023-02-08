@@ -9,14 +9,13 @@ def get_stat_data():
                                 host='mysql_db', database='project1')
 
     # retrieve data from MySQL
-    df = pd.read_sql("SELECT * FROM projecg1.times", cnx)
+    df = pd.read_sql("SELECT * FROM project1.times", cnx)
 
     # calculate statistics data
     minimum = df.min()
     maximum = df.max()
     average = df.mean()
-    mean = df.mean()
-    mode = df.mode().iloc[0]
+    mode = df.mode()
     std = df.std()
 
     # connect to Mongo
@@ -29,7 +28,6 @@ def get_stat_data():
         "minimum": minimum.to_dict(),
         "maximum": maximum.to_dict(),
         "average": average.to_dict(),
-        "mean": mean.to_dict(),
         "mode": mode.to_dict(),
         "standard_deviation": std.to_dict()
     })
