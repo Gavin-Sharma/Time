@@ -24,10 +24,44 @@ services:
     networks:
       - project1
 
+  mongo_db:
+    image: mongo:latest
+    container_name: mongo_db
+    hostname: test_mongo_db
+    command: mongod --auth
+    environment:
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: root
+            MONGO_INITDB_DATABASE: analytics
+    ports:
+      - 27017:27017
+    volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    networks:
+      - project1
+
+  analytics-service:
+    build: ./analytic
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongo_db
+      - mysql_db
+    environment:
+      MYSQL_HOST: mysql_db
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: project1
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MONGO_HOST: mongo_db
+      MONGO_PORT: 27017
+    networks:
+      - project1
+
   nodelogin:
     build: ./nodelogin
     ports:
-      - "3000:3000"
+      - "3001:3001"
     networks:
       - project1
 
